@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ClinicOS — Lean Canvas</title>
+<style>
+  :root {
+    --ink: #0f172a;
+    --ink-2: #334155;
+    --ink-3: #64748b;
+    --surface: #f8fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --accent-blue: #2563eb;
+    --accent-teal: #0d9488;
+    --accent-amber: #d97706;
+    --accent-rose: #e11d48;
+    --accent-violet: #7c3aed;
+    --accent-emerald: #059669;
+    --accent-sky: #0284c7;
+    --accent-orange: #ea580c;
+    --accent-slate: #475569;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--surface);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 32px 24px 60px;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 36px;
+  }
+  header .badge {
+    display: inline-block;
+    background: var(--accent-blue);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    color: var(--ink);
+  }
+  header h1 span { color: var(--accent-blue); }
+  header p {
+    margin-top: 8px;
+    color: var(--ink-3);
+    font-size: 14px;
+  }
+
+  .canvas-grid {
+    display: grid;
+    max-width: 1280px;
+    margin: 0 auto;
+    gap: 12px;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: auto auto auto;
+  }
+
+  /* Row 1: Problem(2col) | Solution(2col) | UVP(1col) | Unfair Adv(1col) | Customer Seg(1col) is wrong — lean canvas layout:
+     Standard Lean Canvas layout:
+     Row 1 (5 cells): Problem | Solution | UVP | Unfair Adv | Customer Segments
+     Row 2 (2 cells wide): Key Metrics (2 cols) | [middle empty or merged with UVP top] | Channels (2 cols)
+     Row 3 (full width split): Cost Structure (2.5 cols) | Revenue Streams (2.5 cols)
+     
+     Actually the classic Lean Canvas is:
+     [Problem][Solution][UVP][Unfair Adv][Customer Segments]
+     [Key Metrics][          ][Channels]
+     [Cost Structure][Revenue Streams]
+     
+     Let me lay this out properly.
+  */
+
+  .cell {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: box-shadow 0.2s;
+  }
+  .cell:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+
+  .cell-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1.5px solid var(--border);
+  }
+  .cell-label .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .cell-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 2px;
+  }
+
+  ul.items {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  ul.items li {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    font-size: 13px;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+  ul.items li .bullet {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+    margin-top: 6px;
+    flex-shrink: 0;
+    opacity: 0.5;
+  }
+
+  /* Specific column accent colors */
+  .c-problem .cell-label { color: var(--accent-rose); }
+  .c-problem .cell-label .dot { background: var(--accent-rose); }
+  .c-problem { border-top: 3px solid var(--accent-rose); }
+
+  .c-solution .cell-label { color: var(--accent-emerald); }
+  .c-solution .cell-label .dot { background: var(--accent-emerald); }
+  .c-solution { border-top: 3px solid var(--accent-emerald); }
+
+  .c-uvp .cell-label { color: var(--accent-blue); }
+  .c-uvp .cell-label .dot { background: var(--accent-blue); }
+  .c-uvp { border-top: 3px solid var(--accent-blue); }
+
+  .c-unfair .cell-label { color: var(--accent-violet); }
+  .c-unfair .cell-label .dot { background: var(--accent-violet); }
+  .c-unfair { border-top: 3px solid var(--accent-violet); }
+
+  .c-segment .cell-label { color: var(--accent-teal); }
+  .c-segment .cell-label .dot { background: var(--accent-teal); }
+  .c-segment { border-top: 3px solid var(--accent-teal); }
+
+  .c-metrics .cell-label { color: var(--accent-amber); }
+  .c-metrics .cell-label .dot { background: var(--accent-amber); }
+  .c-metrics { border-top: 3px solid var(--accent-amber); }
+
+  .c-channels .cell-label { color: var(--accent-sky); }
+  .c-channels .cell-label .dot { background: var(--accent-sky); }
+  .c-channels { border-top: 3px solid var(--accent-sky); }
+
+  .c-cost .cell-label { color: var(--accent-orange); }
+  .c-cost .cell-label .dot { background: var(--accent-orange); }
+  .c-cost { border-top: 3px solid var(--accent-orange); }
+
+  .c-revenue .cell-label { color: var(--accent-slate); }
+  .c-revenue .cell-label .dot { background: var(--accent-slate); }
+  .c-revenue { border-top: 3px solid var(--accent-slate); }
+
+  /* Grid placement */
+  .c-problem  { grid-column: 1; grid-row: 1 / 3; }
+  .c-solution { grid-column: 2; grid-row: 1 / 3; }
+  .c-uvp      { grid-column: 3; grid-row: 1 / 3; }
+  .c-unfair   { grid-column: 4; grid-row: 1; }
+  .c-segment  { grid-column: 5; grid-row: 1; }
+  .c-metrics  { grid-column: 1 / 3; grid-row: 3; }
+  .c-channels { grid-column: 4 / 6; grid-row: 2; }
+  .c-cost     { grid-column: 1 / 4; grid-row: 4; }
+  .c-revenue  { grid-column: 4 / 6; grid-row: 4; }
+
+  /* Row 2 mid-cells for unfair/segment continuation */
+  .c-unfair { grid-row: 1; }
+  .c-segment { grid-row: 1; }
+  .c-channels { grid-column: 4 / 6; grid-row: 2; }
+
+  /* Reflow: standard 5-col lean canvas */
+  /* Row 1 (tall): problem | solution | uvp | unfair adv | customer seg */
+  /* Row 2: key metrics | (solution spans) | (uvp spans) | channels */  
+  /* Row 3: cost structure (wide) | revenue streams */
+
+  /* Re-do the layout properly */
+  .canvas-grid {
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto auto;
+  }
+
+  .c-problem  { grid-column: 1 / 2; grid-row: 1 / 3; }
+  .c-solution { grid-column: 2 / 3; grid-row: 1 / 2; }
+  .c-uvp      { grid-column: 3 / 4; grid-row: 1 / 3; }
+  .c-unfair   { grid-column: 4 / 5; grid-row: 1 / 2; }
+  .c-segment  { grid-column: 5 / 6; grid-row: 1 / 3; }
+  .c-metrics  { grid-column: 1 / 2; grid-row: 3 / 4; }  /* actually key metrics bottom-left */
+  .c-channels { grid-column: 4 / 6; grid-row: 2 / 3; }
+
+  /* In lean canvas: 
+     TOP ROW: [Problem 2rows][Solution][UVP 2rows][Unfair Adv][Cust Seg 2rows]
+     MID ROW: [Problem cont.][Key Metrics][UVP cont.][Channels (2col)][Cust Seg cont.]
+     BOT ROW: [Cost Structure (2.5)][Revenue Streams (2.5)]
+  */
+
+  /* Simplify to clear layout */
+  .c-problem  { grid-column: 1 / 2; grid-row: 1 / 3; }
+  .c-solution { grid-column: 2 / 3; grid-row: 1 / 2; }
+  .c-uvp      { grid-column: 3 / 4; grid-row: 1 / 3; }
+  .c-unfair   { grid-column: 4 / 5; grid-row: 1 / 2; }
+  .c-segment  { grid-column: 5 / 6; grid-row: 1 / 3; }
+  .c-metrics  { grid-column: 2 / 3; grid-row: 2 / 3; }
+  .c-channels { grid-column: 4 / 6; grid-row: 2 / 3; }
+  .c-cost     { grid-column: 1 / 4; grid-row: 3 / 4; }
+  .c-revenue  { grid-column: 4 / 6; grid-row: 3 / 4; }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #f1f5f9;
+    color: var(--ink-3);
+  }
+
+  .taglist { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+
+  .metric-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-top: 4px;
+  }
+  .metric-item {
+    background: #f8fafc;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 10px;
+  }
+  .metric-item .mval {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .metric-item .mlabel {
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-top: 2px;
+  }
+
+  footer {
+    text-align: center;
+    margin-top: 40px;
+    color: var(--ink-3);
+    font-size: 12px;
+  }
+
+  @media (max-width: 900px) {
+    .canvas-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: unset;
+    }
+    .c-problem, .c-solution, .c-uvp, .c-unfair, .c-segment,
+    .c-metrics, .c-channels, .c-cost, .c-revenue {
+      grid-column: auto;
+      grid-row: auto;
+    }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">Lean Canvas</div>
+  <h1>Clinic<span>OS</span></h1>
+  <p>Clinic Management System &nbsp;·&nbsp; v1.0 &nbsp;·&nbsp; April 2026</p>
+</header>
+
+<div class="canvas-grid">
+
+  <!-- PROBLEM -->
+  <div class="cell c-problem">
+    <div class="cell-label"><div class="dot"></div>Problem</div>
+    <div class="cell-title">Top 3 Problems</div>
+    <ul class="items">
+      <li><span class="bullet"></span><strong>Scheduling chaos:</strong> Clinics rely on manual or phone-based booking, leading to double-bookings, missed appointments, and no-shows with no systemic tracking.</li>
+      <li><span class="bullet"></span><strong>Fragmented patient records:</strong> Patient history, prescriptions, lab results, and clinical notes are scattered across paper files, spreadsheets, or disconnected systems — unavailable at the point of care.</li>
+      <li><span class="bullet"></span><strong>Zero administrative control:</strong> Doctors can modify patient records unchecked, appointments are confirmed without oversight, and there is no audit trail for compliance or dispute resolution.</li>
+    </ul>
+    <div class="cell-title" style="margin-top:8px;">Existing Alternatives</div>
+    <ul class="items">
+      <li><span class="bullet"></span>Paper registers &amp; phone calls</li>
+      <li><span class="bullet"></span>Generic spreadsheets (Excel/Sheets)</li>
+      <li><span class="bullet"></span>Expensive full EHR systems (over-engineered for small clinics)</li>
+    </ul>
+  </div>
+
+  <!-- SOLUTION -->
+  <div class="cell c-solution">
+    <div class="cell-label"><div class="dot"></div>Solution</div>
+    <div class="cell-title">Top 3 Solutions</div>
+    <ul class="items">
+      <li><span class="bullet"></span><strong>Smart booking engine:</strong> Patient-facing doctor discovery with specialty, fee, gender, and date filters. Real-time availability calendar. Waitlist automation.</li>
+      <li><span class="bullet"></span><strong>Centralized medical record hub:</strong> Structured patient history, prescriptions, lab document uploads, and full clinical note history — accessible at every appointment.</li>
+      <li><span class="bullet"></span><strong>Admin-gated workflow engine:</strong> Every appointment and every patient data change routes through an Admin approval queue before taking effect. Full audit trail on all actions.</li>
+    </ul>
+  </div>
+
+  <!-- UVP -->
+  <div class="cell c-uvp">
+    <div class="cell-label"><div class="dot"></div>Unique Value Proposition</div>
+    <div class="cell-title">Single, Clear Message</div>
+    <p style="font-size:15px; font-weight:700; line-height:1.5; color:#1e3a8a; margin:8px 0;">
+      "The only clinic platform where nothing moves without your say — appointments, records, and prescriptions all under one Admin-controlled roof."
+    </p>
+    <div class="cell-title" style="margin-top:6px;">High-Level Concept</div>
+    <p style="font-size:13px; color:var(--ink-2); line-height:1.6;">
+      ClinicOS is a three-role (Patient / Doctor / Admin) platform that digitizes and governs the full patient journey from discovery to prescription — with an approval-gated workflow that ensures no action happens without administrative oversight.
+    </p>
+    <div class="taglist">
+      <span class="tag">Approval-Gated</span>
+      <span class="tag">Full Audit Trail</span>
+      <span class="tag">End-to-End</span>
+      <span class="tag">No Paper</span>
+    </div>
+  </div>
+
+  <!-- UNFAIR ADVANTAGE -->
+  <div class="cell c-unfair">
+    <div class="cell-label"><div class="dot"></div>Unfair Advantage</div>
+    <div class="cell-title">Cannot Be Easily Copied</div>
+    <ul class="items">
+      <li><span class="bullet"></span><strong>Admin-gated trust layer:</strong> The dual-approval workflow (Admin → Doctor) is a structural governance moat that generic booking tools don't offer and clinic managers actively need.</li>
+      <li><span class="bullet"></span><strong>Integrated data lineage:</strong> Prescriptions, clinical notes, and referrals are all linked to appointments and patient history — creating a compound record that grows more valuable over time.</li>
+      <li><span class="bullet"></span><strong>Regulatory readiness:</strong> Built-in audit logs, consent management, and data versioning mean clinics can pass compliance audits without retrofitting.</li>
+      <li><span class="bullet"></span><strong>Switching cost accumulation:</strong> Once 12+ months of patient history is in the system, migration is extremely painful for the clinic — creating durable retention.</li>
+    </ul>
+  </div>
+
+  <!-- CUSTOMER SEGMENTS -->
+  <div class="cell c-segment">
+    <div class="cell-label"><div class="dot"></div>Customer Segments</div>
+    <div class="cell-title">Target Market</div>
+    <ul class="items">
+      <li><span class="bullet"></span><strong>Primary:</strong> Small-to-mid-size private clinics (1–15 doctors) in emerging markets currently on paper or Excel.</li>
+      <li><span class="bullet"></span><strong>Secondary:</strong> Multi-specialty outpatient centers seeking to replace fragmented legacy tools.</li>
+      <li><span class="bullet"></span><strong>Tertiary:</strong> Individual specialist practices (dermatology, dentistry) with high repeat-patient volume.</li>
+    </ul>
+    <div class="cell-title" style="margin-top: 8px;">Early Adopters</div>
+    <ul class="items">
+      <li><span class="bullet"></span>Clinic managers frustrated with paper queues</li>
+      <li><span class="bullet"></span>Tech-forward doctors wanting visibility into their pipeline</li>
+      <li><span class="bullet"></span>Urban patients who book appointments online for other services</li>
+    </ul>
+    <div class="taglist" style="margin-top:8px;">
+      <span class="tag">Private Clinics</span>
+      <span class="tag">1–15 Doctors</span>
+      <span class="tag">Urban Markets</span>
+    </div>
+  </div>
+
+  <!-- KEY METRICS -->
+  <div class="cell c-metrics">
+    <div class="cell-label"><div class="dot"></div>Key Metrics</div>
+    <div class="cell-title">What We Measure</div>
+    <div class="metric-grid">
+      <div class="metric-item"><div class="mval">DAU</div><div class="mlabel">Daily active users (all roles)</div></div>
+      <div class="metric-item"><div class="mval">APT/mo</div><div class="mlabel">Appointments processed / month</div></div>
+      <div class="metric-item"><div class="mval">CSAT</div><div class="mlabel">Patient satisfaction score (post-visit)</div></div>
+      <div class="metric-item"><div class="mval">TTR</div><div class="mlabel">Admin approval turnaround time</div></div>
+    </div>
+    <ul class="items" style="margin-top:8px;">
+      <li><span class="bullet"></span>No-show rate reduction vs. baseline</li>
+      <li><span class="bullet"></span>Doctor pipeline fill rate (% slots filled per week)</li>
+      <li><span class="bullet"></span>Patient record completeness score</li>
+      <li><span class="bullet"></span>Monthly recurring clinics (active subscribers)</li>
+    </ul>
+  </div>
+
+  <!-- CHANNELS -->
+  <div class="cell c-channels">
+    <div class="cell-label"><div class="dot"></div>Channels</div>
+    <div class="cell-title">How We Reach Customers</div>
+    <ul class="items">
+      <li><span class="bullet"></span><strong>Direct Sales:</strong> Outreach to clinic managers and medical practice owners via LinkedIn and medical associations.</li>
+      <li><span class="bullet"></span><strong>Referrals:</strong> Doctor-to-doctor word-of-mouth once one practice in a network adopts the system.</li>
+      <li><span class="bullet"></span><strong>Content Marketing:</strong> SEO-driven articles targeting "clinic management software", "appointment booking system for clinics."</li>
+      <li><span class="bullet"></span><strong>Partnerships:</strong> Medical association directories, hospital supplier networks, pharmaceutical reps.</li>
+      <li><span class="bullet"></span><strong>Free Trial / Demo:</strong> 30-day full-feature free trial for new clinic sign-ups to drive adoption with zero risk.</li>
+    </ul>
+  </div>
+
+  <!-- COST STRUCTURE -->
+  <div class="cell c-cost">
+    <div class="cell-label"><div class="dot"></div>Cost Structure</div>
+    <div class="cell-title">Fixed &amp; Variable Costs</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:4px;">
+      <div>
+        <p style="font-size:12px;font-weight:700;margin-bottom:6px;color:var(--accent-orange)">Infrastructure</p>
+        <ul class="items">
+          <li><span class="bullet"></span>Cloud hosting (App + DB servers)</li>
+          <li><span class="bullet"></span>Object storage (PDFs, documents)</li>
+          <li><span class="bullet"></span>Email delivery service (transactional)</li>
+          <li><span class="bullet"></span>CDN &amp; SSL</li>
+        </ul>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;margin-bottom:6px;color:var(--accent-orange)">People</p>
+        <ul class="items">
+          <li><span class="bullet"></span>Engineering (frontend + backend)</li>
+          <li><span class="bullet"></span>Product &amp; design</li>
+          <li><span class="bullet"></span>Customer success / onboarding</li>
+          <li><span class="bullet"></span>Sales &amp; marketing</li>
+        </ul>
+      </div>
+      <div>
+        <p style="font-size:12px;font-weight:700;margin-bottom:6px;color:var(--accent-orange)">Operations</p>
+        <ul class="items">
+          <li><span class="bullet"></span>Customer support tooling</li>
+          <li><span class="bullet"></span>Legal &amp; compliance (data privacy)</li>
+          <li><span class="bullet"></span>Security audits &amp; pen testing</li>
+          <li><span class="bullet"></span>Marketing &amp; content</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVENUE STREAMS -->
+  <div class="cell c-revenue">
+    <div class="cell-label"><div class="dot"></div>Revenue Streams</div>
+    <div class="cell-title">How We Make Money</div>
+    <ul class="items">
+      <li><span class="bullet"></span><strong>SaaS Subscription (Primary):</strong> Monthly per-clinic fee tiered by number of active doctors (e.g., Starter: 1–3 doctors / Growth: 4–10 / Scale: 11+).</li>
+      <li><span class="bullet"></span><strong>Per-Transaction Fee (Phase 2):</strong> Small flat fee per appointment processed once online payment gateway is live.</li>
+      <li><span class="bullet"></span><strong>Onboarding &amp; Setup Service:</strong> One-time paid onboarding package for clinics requiring data migration, staff training, and custom configuration.</li>
+      <li><span class="bullet"></span><strong>Premium Add-ons (Phase 2):</strong> Telemedicine module, SMS notifications, advanced analytics, multi-branch support — sold as optional upgrades.</li>
+      <li><span class="bullet"></span><strong>White-Label License (Phase 3):</strong> Licensing the platform to hospital groups or healthcare networks under their own brand.</li>
+    </ul>
+  </div>
+
+</div>
+
+<footer>
+  ClinicOS Lean Canvas &nbsp;·&nbsp; Confidential Internal Document &nbsp;·&nbsp; Version 1.0.0 &nbsp;·&nbsp; April 2026
+</footer>
+
+</body>
+</html>

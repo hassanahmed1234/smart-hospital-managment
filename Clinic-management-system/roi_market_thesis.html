@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ClinicOS — ROI & Market Thesis</title>
+<style>
+  :root {
+    --ink: #0f172a;
+    --ink-2: #334155;
+    --ink-3: #64748b;
+    --surface: #f8fafc;
+    --card: #ffffff;
+    --border: #e2e8f0;
+    --accent: #1d4ed8;
+    --accent-light: #eff6ff;
+    --accent-2: #059669;
+    --accent-2-light: #ecfdf5;
+    --accent-3: #d97706;
+    --accent-3-light: #fffbeb;
+    --accent-4: #7c3aed;
+    --accent-4-light: #f5f3ff;
+    --accent-red: #dc2626;
+    --accent-red-light: #fef2f2;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--surface);
+    color: var(--ink);
+    padding: 0 0 80px;
+  }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%);
+    color: white;
+    padding: 60px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -80px; top: -80px;
+    width: 400px; height: 400px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #93c5fd;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: 40px;
+    font-weight: 900;
+    letter-spacing: -1px;
+    line-height: 1.1;
+    max-width: 600px;
+  }
+  .hero h1 span { color: #60a5fa; }
+  .hero p {
+    margin-top: 16px;
+    font-size: 15px;
+    color: #94a3b8;
+    max-width: 560px;
+    line-height: 1.6;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    margin-top: 36px;
+    flex-wrap: wrap;
+  }
+  .hero-stat { border-left: 3px solid #3b82f6; padding-left: 16px; }
+  .hero-stat .val { font-size: 28px; font-weight: 800; color: #fff; }
+  .hero-stat .lbl { font-size: 12px; color: #94a3b8; margin-top: 2px; }
+
+  /* MAIN LAYOUT */
+  .page { max-width: 1100px; margin: 0 auto; padding: 48px 24px; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .section-header .icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--ink);
+  }
+  .section-header p {
+    font-size: 13px;
+    color: var(--ink-3);
+    margin-top: 2px;
+  }
+
+  .divider { border: none; border-top: 1.5px solid var(--border); margin: 40px 0; }
+
+  /* CARDS */
+  .card {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 16px; }
+
+  /* MARKET SIZE */
+  .tam-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  .tam-card {
+    border-radius: 12px;
+    padding: 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .tam-card.tam { background: #1e3a8a; color: white; }
+  .tam-card.sam { background: var(--accent); color: white; }
+  .tam-card.som { background: #3b82f6; color: white; }
+  .tam-card .tam-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+  .tam-card .tam-value {
+    font-size: 36px;
+    font-weight: 900;
+    margin: 8px 0;
+    line-height: 1;
+  }
+  .tam-card .tam-desc {
+    font-size: 12px;
+    opacity: 0.8;
+    line-height: 1.4;
+  }
+
+  /* ROI TABLE */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    background: #f1f5f9;
+    color: var(--ink-3);
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 2px solid var(--border);
+  }
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--ink-2);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8fafc; }
+  .num { font-weight: 700; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .green { color: var(--accent-2); font-weight: 700; }
+  .amber { color: var(--accent-3); font-weight: 700; }
+  .blue { color: var(--accent); font-weight: 700; }
+
+  /* METRIC CARDS */
+  .metric-card {
+    border-radius: 12px;
+    padding: 20px;
+    border: 1.5px solid var(--border);
+    background: var(--card);
+  }
+  .metric-card .mc-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 8px;
+  }
+  .metric-card .mc-value {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .metric-card .mc-sub {
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+  .metric-card.accent-blue { border-top: 3px solid var(--accent); }
+  .metric-card.accent-green { border-top: 3px solid var(--accent-2); }
+  .metric-card.accent-amber { border-top: 3px solid var(--accent-3); }
+  .metric-card.accent-violet { border-top: 3px solid var(--accent-4); }
+  .metric-card.accent-red { border-top: 3px solid var(--accent-red); }
+
+  /* RISK TABLE */
+  .risk-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  .risk-high { background: #fee2e2; color: #dc2626; }
+  .risk-med { background: #fef3c7; color: #d97706; }
+  .risk-low { background: #d1fae5; color: #059669; }
+
+  /* COMPARISON TABLE */
+  .comp-yes { color: var(--accent-2); font-weight: 700; font-size: 16px; }
+  .comp-no { color: #94a3b8; }
+  .comp-part { color: var(--accent-3); font-weight: 700; }
+  .comp-us { background: var(--accent-light) !important; font-weight: 700; }
+
+  /* TIMELINE */
+  .timeline { position: relative; padding-left: 28px; }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 7px; top: 8px; bottom: 8px;
+    width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent-2));
+    border-radius: 2px;
+  }
+  .tl-item {
+    position: relative;
+    margin-bottom: 24px;
+  }
+  .tl-item::before {
+    content: '';
+    position: absolute;
+    left: -24px; top: 5px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid white;
+    box-shadow: 0 0 0 2px var(--accent);
+  }
+  .tl-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+  .tl-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 4px;
+  }
+  .tl-desc {
+    font-size: 13px;
+    color: var(--ink-3);
+    line-height: 1.5;
+  }
+
+  /* CALLOUT */
+  .callout {
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  .callout.blue { background: var(--accent-light); border: 1.5px solid #bfdbfe; }
+  .callout.green { background: var(--accent-2-light); border: 1.5px solid #a7f3d0; }
+  .callout .ci { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+  .callout p { font-size: 14px; color: var(--ink-2); line-height: 1.6; }
+  .callout strong { color: var(--ink); }
+
+  footer {
+    text-align: center;
+    color: var(--ink-3);
+    font-size: 12px;
+    padding: 20px 0;
+    border-top: 1px solid var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">The Money Doc &nbsp;·&nbsp; Confidential</div>
+  <h1>ClinicOS<br/><span>ROI &amp; Market Thesis</span></h1>
+  <p>A structured investment and opportunity case for ClinicOS — the admin-gated clinic management platform targeting underserved small-to-mid-size private clinics.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="val">$11.5B</div>
+      <div class="lbl">Global Clinic Mgmt Software TAM (2025)</div>
+    </div>
+    <div class="hero-stat">
+      <div class="val">14.2%</div>
+      <div class="lbl">CAGR through 2030</div>
+    </div>
+    <div class="hero-stat">
+      <div class="val">~2M+</div>
+      <div class="lbl">Small Private Clinics in Target Geographies</div>
+    </div>
+    <div class="hero-stat">
+      <div class="val">&lt;15%</div>
+      <div class="lbl">Current Digital Penetration (Emerging Markets)</div>
+    </div>
+  </div>
+</div>
+
+<div class="page">
+
+  <!-- MARKET OPPORTUNITY -->
+  <div class="section-header">
+    <div class="icon" style="background:#eff6ff;">📊</div>
+    <div>
+      <h2>Market Opportunity</h2>
+      <p>Total Addressable, Serviceable, and Obtainable market sizing</p>
+    </div>
+  </div>
+
+  <div class="tam-grid" style="margin-bottom:24px;">
+    <div class="tam-card tam">
+      <div class="tam-label">TAM — Total Addressable Market</div>
+      <div class="tam-value">$11.5B</div>
+      <div class="tam-desc">Global clinic &amp; practice management software market (2025 est.). Includes EHR, billing, scheduling, and patient management platforms worldwide.</div>
+    </div>
+    <div class="tam-card sam">
+      <div class="tam-label">SAM — Serviceable Addressable Market</div>
+      <div class="tam-value">$1.8B</div>
+      <div class="tam-desc">Small-to-mid private clinics (1–15 doctors) in South Asia, MENA, and Southeast Asia — currently underserved by affordable, purpose-built digital solutions.</div>
+    </div>
+    <div class="tam-card som">
+      <div class="tam-label">SOM — Serviceable Obtainable Market</div>
+      <div class="tam-value">$42M</div>
+      <div class="tam-desc">Realistically capturable in 3 years: ~7,000 clinics at $500/yr average contract value. Based on 0.4% SAM penetration through direct sales + referral.</div>
+    </div>
+  </div>
+
+  <div class="callout blue">
+    <div class="ci">💡</div>
+    <p><strong>Key Insight:</strong> The clinic management software category is dominated by expensive, feature-bloated EHR platforms (Epic, Cerner) built for hospitals, or generic booking tools (Calendly, Setmore) with no medical governance layer. There is a clear <strong>blue ocean for affordable, governance-first clinic platforms targeting emerging market private practices.</strong></p>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- UNIT ECONOMICS -->
+  <div class="section-header">
+    <div class="icon" style="background:#ecfdf5;">💰</div>
+    <div>
+      <h2>Unit Economics</h2>
+      <p>Per-clinic SaaS model — conservative projections at steady state</p>
+    </div>
+  </div>
+
+  <div class="grid-4" style="margin-bottom:24px;">
+    <div class="metric-card accent-blue">
+      <div class="mc-label">ARPC / Month</div>
+      <div class="mc-value">$65</div>
+      <div class="mc-sub">Avg. Revenue Per Clinic (blended tier)</div>
+    </div>
+    <div class="metric-card accent-green">
+      <div class="mc-label">Gross Margin</div>
+      <div class="mc-value">74%</div>
+      <div class="mc-sub">At scale (post Year 2, infra costs fixed)</div>
+    </div>
+    <div class="metric-card accent-amber">
+      <div class="mc-label">CAC</div>
+      <div class="mc-value">$180</div>
+      <div class="mc-sub">Customer Acquisition Cost (blended)</div>
+    </div>
+    <div class="metric-card accent-violet">
+      <div class="mc-label">LTV</div>
+      <div class="mc-value">$2,340</div>
+      <div class="mc-sub">Lifetime Value (3yr avg. retention)</div>
+    </div>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:24px;">
+    <div class="metric-card accent-blue">
+      <div class="mc-label">LTV : CAC Ratio</div>
+      <div class="mc-value">13:1</div>
+      <div class="mc-sub">Target ≥ 3:1. This indicates strong unit economics.</div>
+    </div>
+    <div class="metric-card accent-green">
+      <div class="mc-label">Payback Period</div>
+      <div class="mc-value">2.8 mo</div>
+      <div class="mc-sub">Months to recover CAC from gross margin</div>
+    </div>
+    <div class="metric-card accent-amber">
+      <div class="mc-label">Monthly Churn Target</div>
+      <div class="mc-value">&lt; 2%</div>
+      <div class="mc-sub">Driven by data switching costs and workflow lock-in</div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- PRICING MODEL -->
+  <div class="section-header">
+    <div class="icon" style="background:#fffbeb;">🏷️</div>
+    <div>
+      <h2>Pricing Tiers</h2>
+      <p>SaaS subscription model — billed monthly or annually (20% annual discount)</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:24px; overflow:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Tier</th>
+          <th>Target Clinic Size</th>
+          <th>Monthly Price</th>
+          <th>Annual Price</th>
+          <th>Included Features</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Starter</strong></td>
+          <td>1–3 doctors</td>
+          <td class="num">$39 / mo</td>
+          <td class="num">$374 / yr</td>
+          <td>All core modules (booking, records, prescriptions, admin panel). Up to 500 appointments/month. Email notifications.</td>
+        </tr>
+        <tr>
+          <td><strong>Growth</strong></td>
+          <td>4–10 doctors</td>
+          <td class="num">$89 / mo</td>
+          <td class="num">$854 / yr</td>
+          <td>Everything in Starter + Referrals module, Billing &amp; Invoicing, Advanced reporting, Priority support.</td>
+        </tr>
+        <tr>
+          <td><strong>Scale</strong></td>
+          <td>11–25 doctors</td>
+          <td class="num">$179 / mo</td>
+          <td class="num">$1,718 / yr</td>
+          <td>Everything in Growth + API access, Custom branding, Data export, Dedicated onboarding manager.</td>
+        </tr>
+        <tr>
+          <td><strong>Enterprise</strong></td>
+          <td>25+ / Multi-branch</td>
+          <td class="num">Custom</td>
+          <td class="num">Custom</td>
+          <td>Everything in Scale + White-label option, SLA guarantee, Custom integrations, On-site training.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">
+    <div class="ci">📈</div>
+    <p><strong>Revenue Lever:</strong> Onboarding fees ($299–$999 one-time) add immediate cash and reduce churn (clinics who pay for setup invest more). Phase 2 transaction fees (flat $0.50/appointment) add a usage-based layer on top of subscription, de-risking revenue from pure seat-count growth.</p>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- 3-YEAR REVENUE PROJECTION -->
+  <div class="section-header">
+    <div class="icon" style="background:#f5f3ff;">📈</div>
+    <div>
+      <h2>3-Year Revenue Projection</h2>
+      <p>Conservative model — direct sales + referral growth, no paid acquisition assumed until Year 2</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:24px; overflow:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Year 1 (End)</th>
+          <th>Year 2 (End)</th>
+          <th>Year 3 (End)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Active Clinics (MRR)</td>
+          <td class="num">80</td>
+          <td class="num">420</td>
+          <td class="num">1,400</td>
+        </tr>
+        <tr>
+          <td>Average ARPC / Month</td>
+          <td class="num">$48</td>
+          <td class="num">$62</td>
+          <td class="num">$75</td>
+        </tr>
+        <tr>
+          <td>Monthly Recurring Revenue (MRR)</td>
+          <td class="num">$3,840</td>
+          <td class="num">$26,040</td>
+          <td class="num">$105,000</td>
+        </tr>
+        <tr>
+          <td>Annual Recurring Revenue (ARR)</td>
+          <td class="num">$46,080</td>
+          <td class="num">$312,480</td>
+          <td class="num">$1,260,000</td>
+        </tr>
+        <tr>
+          <td>Onboarding Revenue (one-time)</td>
+          <td class="num">$28,000</td>
+          <td class="num">$95,000</td>
+          <td class="num">$180,000</td>
+        </tr>
+        <tr>
+          <td><strong>Total Revenue</strong></td>
+          <td class="num green">$74,080</td>
+          <td class="num green">$407,480</td>
+          <td class="num green">$1,440,000</td>
+        </tr>
+        <tr>
+          <td>Estimated COGS (hosting, support, delivery)</td>
+          <td class="num amber">$38,000</td>
+          <td class="num amber">$118,000</td>
+          <td class="num amber">$310,000</td>
+        </tr>
+        <tr>
+          <td><strong>Gross Profit</strong></td>
+          <td class="num blue">$36,080 (49%)</td>
+          <td class="num blue">$289,480 (71%)</td>
+          <td class="num blue">$1,130,000 (78%)</td>
+        </tr>
+        <tr>
+          <td>Monthly Churn Rate</td>
+          <td class="num">3.5%</td>
+          <td class="num">2.2%</td>
+          <td class="num">1.6%</td>
+        </tr>
+        <tr>
+          <td>Net Promoter Score Target</td>
+          <td>≥ 30</td>
+          <td>≥ 45</td>
+          <td>≥ 55</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ROI FOR CLINIC CUSTOMERS -->
+  <div class="section-header">
+    <div class="icon" style="background:#ecfdf5;">🏥</div>
+    <div>
+      <h2>ROI for the Clinic Customer</h2>
+      <p>The economic case for a clinic purchasing ClinicOS — the buyer's perspective</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:16px; overflow:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Value Driver</th>
+          <th>Before ClinicOS</th>
+          <th>After ClinicOS</th>
+          <th>Estimated Annual Gain</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>No-show reduction</strong> (reminders + digital confirmation)</td>
+          <td>~20% no-show rate</td>
+          <td>~8% no-show rate</td>
+          <td class="green">+$3,600 / yr (5 doctors, 20 slots/wk @ $30/slot)</td>
+        </tr>
+        <tr>
+          <td><strong>Admin staff time savings</strong> (manual scheduling → automated)</td>
+          <td>~4 hrs/day on phone booking</td>
+          <td>~1 hr/day (exceptions only)</td>
+          <td class="green">~$2,700 / yr (3 hrs × 250 days × $3.60/hr)</td>
+        </tr>
+        <tr>
+          <td><strong>Record retrieval speed</strong> (paper search → instant digital)</td>
+          <td>~10 min per patient record</td>
+          <td>&lt; 30 seconds</td>
+          <td class="green">~$1,800 / yr (doctor time saved @ $60/hr)</td>
+        </tr>
+        <tr>
+          <td><strong>Billing accuracy</strong> (manual invoicing → auto-generated)</td>
+          <td>~5% invoice error rate</td>
+          <td>&lt; 0.5%</td>
+          <td class="green">+$900 / yr (recovered missed charges)</td>
+        </tr>
+        <tr>
+          <td><strong>Compliance risk reduction</strong> (audit log + approval workflows)</td>
+          <td>No audit trail; manual disputes</td>
+          <td>Full audit log + versioned records</td>
+          <td class="green">Qualitative: avoids legal exposure, licensing issues</td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <td><strong>Total Estimated Annual Value</strong></td>
+          <td></td>
+          <td></td>
+          <td class="green" style="font-size:15px;">~$9,000+ / yr per clinic</td>
+        </tr>
+        <tr style="background:#f0fdf4;">
+          <td><strong>ClinicOS Growth Tier Cost</strong></td>
+          <td></td>
+          <td></td>
+          <td class="blue" style="font-size:15px;">$89 / mo = $1,068 / yr</td>
+        </tr>
+        <tr style="background:#d1fae5;">
+          <td><strong>Customer ROI</strong></td>
+          <td></td>
+          <td></td>
+          <td style="font-size:16px; font-weight:900; color:#059669;">~8.4x return on subscription cost</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- COMPETITIVE LANDSCAPE -->
+  <div class="section-header">
+    <div class="icon" style="background:#eff6ff;">⚔️</div>
+    <div>
+      <h2>Competitive Landscape</h2>
+      <p>Where ClinicOS sits relative to alternatives</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:24px; overflow:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th class="comp-us">ClinicOS</th>
+          <th>Epic / Cerner</th>
+          <th>Calendly / Setmore</th>
+          <th>Generic EMR (region-specific)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Admin Approval Workflow</td>
+          <td class="comp-yes comp-us">✓</td>
+          <td class="comp-no">✗</td>
+          <td class="comp-no">✗</td>
+          <td class="comp-no">✗</td>
+        </tr>
+        <tr>
+          <td>Patient Medical History</td>
+          <td class="comp-yes comp-us">✓</td>
+          <td class="comp-yes">✓</td>
+          <td class="comp-no">✗</td>
+          <td class="comp-part">Partial</td>
+        </tr>
+        <tr>
+          <td>Digital Prescriptions</td>
+          <td class="comp-yes comp-us">✓</td>
+          <td class="comp-yes">✓</td>
+          <td class="comp-no">✗</td>
+          <td class="comp-part">Partial</td>
+        </tr>
+        <tr>
+          <td>Doctor Pipeline (Kanban)</td>
+          <td class="comp-yes comp-us">✓</td>
+          <td class="comp-no">✗</td>
+          <td class="comp-part">Basic</td>
+          <td class="comp-no">✗</td>
+        </tr>
+        <tr>
+          <td>Doctor Referral System</td>
+          <td class="comp-yes comp-us">✓</td>
+          <td class="comp-yes">✓</td>
+          <td class="comp-no">✗</td>
+          <td class="comp-no">✗</td>
+        </tr>
+        <tr>
+          <td>Full Audit Log</td>
+          <td class="comp-yes comp-us">✓</td>
+          <td class="comp-yes">✓</td>
+          <td class="comp-no">✗</td>
+          <td class="comp-part">Partial</td>
+        </tr>
+        <tr>
+          <td>Affordable for Small Clinics</td>
+          <td class="comp-yes comp-us">✓</td>
+          <td class="comp-no">✗ (six figures+)</td>
+          <td class="comp-yes">✓</td>
+          <td class="comp-part">Varies</td>
+        </tr>
+        <tr>
+          <td>Patient-Facing Discovery</td>
+          <td class="comp-yes comp-us">✓</td>
+          <td class="comp-no">✗</td>
+          <td class="comp-part">Basic</td>
+          <td class="comp-no">✗</td>
+        </tr>
+        <tr>
+          <td>Built for Emerging Markets</td>
+          <td class="comp-yes comp-us">✓</td>
+          <td class="comp-no">✗</td>
+          <td class="comp-no">✗</td>
+          <td class="comp-part">Some</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- RISK MATRIX -->
+  <div class="section-header">
+    <div class="icon" style="background:#fef2f2;">⚠️</div>
+    <div>
+      <h2>Risk Matrix</h2>
+      <p>Key risks and mitigation strategies</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:24px; overflow:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Risk</th>
+          <th>Likelihood</th>
+          <th>Impact</th>
+          <th>Rating</th>
+          <th>Mitigation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Low Admin adoption</strong> — clinic managers resist digital workflows</td>
+          <td>Medium</td>
+          <td>High</td>
+          <td><span class="risk-badge risk-high">High</span></td>
+          <td>Hands-on onboarding, UI optimized for low-tech users, 30-day free trial to demonstrate value before commitment.</td>
+        </tr>
+        <tr>
+          <td><strong>Data privacy breach</strong> — patient medical data exposure</td>
+          <td>Low</td>
+          <td>Critical</td>
+          <td><span class="risk-badge risk-high">High</span></td>
+          <td>AES-256 at rest, TLS in transit, RBAC, pen testing every 6 months, cyber insurance, no PII in logs.</td>
+        </tr>
+        <tr>
+          <td><strong>Competition from free/cheap tools</strong> — WhatsApp + paper hybrid</td>
+          <td>High</td>
+          <td>Medium</td>
+          <td><span class="risk-badge risk-med">Medium</span></td>
+          <td>ROI narrative and sales demos quantifying time/money saved. Free tier to capture price-sensitive segment.</td>
+        </tr>
+        <tr>
+          <td><strong>Regulatory changes</strong> — new health data laws in target markets</td>
+          <td>Medium</td>
+          <td>Medium</td>
+          <td><span class="risk-badge risk-med">Medium</span></td>
+          <td>Modular compliance layer, consent management built-in, active monitoring of local health data regulations.</td>
+        </tr>
+        <tr>
+          <td><strong>Slow Admin approval</strong> — bottleneck in workflow design</td>
+          <td>Medium</td>
+          <td>Medium</td>
+          <td><span class="risk-badge risk-med">Medium</span></td>
+          <td>SLA-based escalation alerts, mobile-friendly Admin approval interface, batch-approve feature for queues.</td>
+        </tr>
+        <tr>
+          <td><strong>High churn in Year 1</strong> — clinics trial but don't retain</td>
+          <td>Medium</td>
+          <td>High</td>
+          <td><span class="risk-badge risk-med">Medium</span></td>
+          <td>Deep onboarding, customer success check-ins at days 7/30/90, feature adoption tracking to intervene early.</td>
+        </tr>
+        <tr>
+          <td><strong>Engineering scope creep</strong> — v1 delayed by feature additions</td>
+          <td>High</td>
+          <td>Medium</td>
+          <td><span class="risk-badge risk-med">Medium</span></td>
+          <td>PRD with explicit P0/P1/P2 tiers, strict Phase 2 out-of-scope list, fortnightly sprint reviews.</td>
+        </tr>
+        <tr>
+          <td><strong>Single-clinic dependency</strong> — losing a large early customer</td>
+          <td>Low</td>
+          <td>Low</td>
+          <td><span class="risk-badge risk-low">Low</span></td>
+          <td>No single customer &gt; 10% of ARR goal in Year 1. Diversify customer base early.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- GO-TO-MARKET TIMELINE -->
+  <div class="section-header">
+    <div class="icon" style="background:#ecfdf5;">🚀</div>
+    <div>
+      <h2>Go-To-Market Timeline</h2>
+      <p>Phased rollout from MVP to scale</p>
+    </div>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:24px;">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-label">Month 1–3</div>
+        <div class="tl-title">MVP Build &amp; Pilot</div>
+        <div class="tl-desc">Develop all P0 features. Recruit 3–5 pilot clinics for free beta. Collect intensive feedback on booking flow, admin workflow, and prescription module.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label">Month 4–5</div>
+        <div class="tl-title">Beta → Paid Conversion</div>
+        <div class="tl-desc">Convert pilot clinics to paid Starter tier. Launch P1 features (billing, waitlists, reminders). Fix critical UX issues surfaced in beta.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label">Month 6–9</div>
+        <div class="tl-title">Growth Marketing Activation</div>
+        <div class="tl-desc">Content marketing, LinkedIn outreach to clinic managers, medical association partnerships. Target 50 paying clinics by month 9. Launch referral incentive program.</div>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-label">Month 10–12</div>
+        <div class="tl-title">Tier Expansion &amp; Growth Features</div>
+        <div class="tl-desc">Launch Growth tier features (referrals, advanced reports). Onboard first Growth-tier customers. Hit 80 active clinics milestone.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label">Year 2</div>
+        <div class="tl-title">Phase 2 Feature Expansion</div>
+        <div class="tl-desc">Telemedicine module, SMS notifications, online payments, mobile app. Expand to second geographic market. Hire dedicated Customer Success function.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-label">Year 3</div>
+        <div class="tl-title">Scale &amp; Enterprise Push</div>
+        <div class="tl-desc">Multi-branch support, white-label licensing, enterprise tier. Explore Series A or strategic partnership with healthcare network. Target $1M+ ARR.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- INVESTMENT ASK (if applicable) -->
+  <div class="section-header">
+    <div class="icon" style="background:#faf5ff;">💼</div>
+    <div>
+      <h2>Summary Investment Thesis</h2>
+      <p>Why ClinicOS is a compelling opportunity</p>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card" style="border-top:3px solid var(--accent);">
+      <div style="font-size:24px;margin-bottom:12px;">🎯</div>
+      <div style="font-weight:800;font-size:15px;margin-bottom:8px;">Large, Underserved Market</div>
+      <p style="font-size:13px;color:var(--ink-3);line-height:1.6;">Millions of small private clinics in emerging markets operate without any digital management system. The switching cost from paper to a well-designed SaaS is low; the value delivered is immediate and measurable.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent-2);">
+      <div style="font-size:24px;margin-bottom:12px;">🔒</div>
+      <div style="font-weight:800;font-size:15px;margin-bottom:8px;">Durable Retention Moat</div>
+      <p style="font-size:13px;color:var(--ink-3);line-height:1.6;">Once a clinic's patient history, prescriptions, and audit logs are in ClinicOS, migrating is operationally painful. Data lock-in compounds over time, creating a natural churn floor and pricing power.</p>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent-3);">
+      <div style="font-size:24px;margin-bottom:12px;">📊</div>
+      <div style="font-weight:800;font-size:15px;margin-bottom:8px;">Strong Unit Economics</div>
+      <p style="font-size:13px;color:var(--ink-3);line-height:1.6;">13:1 LTV:CAC ratio with a 2.8-month payback period makes ClinicOS capital-efficient. Gross margins improve to 74%+ at scale as infrastructure costs remain largely fixed while revenue scales with clinic count.</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  ClinicOS ROI &amp; Market Thesis &nbsp;·&nbsp; Confidential Internal Document &nbsp;·&nbsp; Version 1.0.0 &nbsp;·&nbsp; April 2026
+</footer>
+
+</body>
+</html>
