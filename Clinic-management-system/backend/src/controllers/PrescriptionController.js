@@ -3,7 +3,6 @@ import Appointment, { AppointmentStatus } from '../models/Appointment.js';
 import DoctorProfile from '../models/DoctorProfile.js';
 
 export const createPrescription = async (req, res) => {
-  console.log('REQ ===>>',req.user)
   try {
     const { appointmentId, patientId, medications, generalNotes } = req.body;
     

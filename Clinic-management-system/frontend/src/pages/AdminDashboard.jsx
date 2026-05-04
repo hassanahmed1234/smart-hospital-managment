@@ -22,18 +22,17 @@ const AdminDashboard = () => {
         // api.get('/auth/health'), // Placeholder
         api.get('/admin/pendingusers'),
         api.get('/patients'),
-        api.get('/doctors'),
+        api.get('/admin/getalldoctors'),
         api.get('/appointments/admin-queue')
       ]);
    
-      console.log('RESPONSE ==>>' , response)
-      const [_pts, docs, q] = await response
-      console.log('DESTRUCTURE ==>>' , _pts, docs)
+      const [_pts, docs, q, appoint] = await response
+
 
       setStats({
-        totalPatients: response[1].value.data.length, // Mock
-        totalDoctors: _pts.value.data.length,
-        pendingAppointments:response[0].value.data.length,
+        totalPatients: docs.value.data.length, // Mock
+        totalDoctors: q.value.data.length,
+        pendingAppointments: appoint.value.data.length,
        
       });
     } catch (error) {

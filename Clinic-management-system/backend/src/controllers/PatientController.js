@@ -2,7 +2,6 @@ import PatientProfile from '../models/PatientProfile.js';
 import { UserStatus } from '../models/User.js';
 
 export const getAllPatients = async (req, res) => {
-  console.log('Backend')
   try {
   
     // Only get doctors whose users are ACTIVE

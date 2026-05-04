@@ -95,7 +95,6 @@ export const getAdminQueue = async (req, res) => {
       .populate('patientId', 'fullName')
       .populate('doctorId', 'fullName specialty')
       .sort({ createdAt: 1 });
-    console.log(appointments)
     res.status(200).json(appointments);
   } catch (error) {
     res.status(500).json({ message: 'Server error', error: error.message });

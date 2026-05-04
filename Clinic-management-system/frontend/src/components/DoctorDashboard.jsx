@@ -1,112 +1,3 @@
-// import React from 'react';
-// import { useSelector } from 'react-redux';
-// import { 
-//   Users, 
-//   Activity, 
-//   PlusCircle, 
-//   MessageSquare, 
-//   TrendingUp, 
-//   Clock, 
-//   ChevronRight,
-//   ShieldCheck
-// } from 'lucide-react';
-
-// const PatientDashboard = () => {
-//   // Accessing user data from your Redux store as seen in your previous component
-//   const { user } = useSelector((state) => state.auth);
-
-//   const stats = [
-//     { label: 'Total Connections', value: '1,284', icon: Users, color: 'text-blue-500', bg: 'bg-blue-500/10' },
-//     { label: 'Activity Rate', value: '84%', icon: Activity, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
-//     { label: 'New Messages', value: '12', icon: MessageSquare, color: 'text-purple-500', bg: 'bg-purple-500/10' },
-//     { label: 'Profile Reach', value: '+22%', icon: TrendingUp, color: 'text-amber-500', bg: 'bg-amber-500/10' },
-//   ];
-
-//   return (
-//     <div className="space-y-8 animate-in fade-in duration-500">
-//       {/* Welcome Header */}
-//       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-//         <div>
-//           <h1 className="text-3xl font-bold text-white tracking-tight">
-//             Welcome back, <span className="text-blue-500">{user?.fullName || 'User'}</span>
-//           </h1>
-//           <p className="text-gray-400 mt-1">Here is what's happening with your feed today.</p>
-//         </div>
-//         <button className="flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-bold transition-all shadow-lg shadow-blue-600/20 active:scale-95">
-//           <PlusCircle className="w-5 h-5" />
-//           Create New Post
-//         </button>
-//       </div>
-
-//       {/* Stats Grid */}
-//       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-//         {stats.map((stat, i) => (
-//           <div key={i} className="bg-gray-900 border border-gray-800 p-6 rounded-2xl shadow-xl hover:border-gray-700 transition-colors">
-//             <div className={`w-12 h-12 ${stat.bg} rounded-xl flex items-center justify-center mb-4`}>
-//               <stat.icon className={`w-6 h-6 ${stat.color}`} />
-//             </div>
-//             <p className="text-gray-500 text-xs font-black uppercase tracking-widest">{stat.label}</p>
-//             <h3 className="text-2xl font-bold text-white mt-1">{stat.value}</h3>
-//           </div>
-//         ))}
-//       </div>
-
-//       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-//         {/* Recent Activity Feed */}
-//         <div className="lg:col-span-2 bg-gray-900 border border-gray-800 rounded-2xl shadow-xl overflow-hidden">
-//           <div className="p-6 border-b border-gray-800 flex justify-between items-center">
-//             <h3 className="text-lg font-bold text-white flex items-center gap-2">
-//               <Clock className="w-5 h-5 text-blue-500" /> Recent Activity
-//             </h3>
-//             <button className="text-blue-500 text-sm font-medium hover:underline">View All</button>
-//           </div>
-//           <div className="p-6 space-y-6">
-//             {[1, 2, 3].map((item) => (
-//               <div key={item} className="flex gap-4 group cursor-pointer">
-//                 <div className="w-10 h-10 rounded-full bg-gray-800 flex-shrink-0 border border-gray-700" />
-//                 <div className="flex-1 border-b border-gray-800 pb-4 group-last:border-0">
-//                   <p className="text-gray-300 text-sm">
-//                     <span className="text-white font-bold">John Doe</span> commented on your recent photo.
-//                   </p>
-//                   <p className="text-gray-500 text-xs mt-1">2 hours ago</p>
-//                 </div>
-//                 <ChevronRight className="w-5 h-5 text-gray-700 group-hover:text-blue-500 transition-colors" />
-//               </div>
-//             ))}
-//           </div>
-//         </div>
-
-//         {/* Account Security / Status Card */}
-//         <div className="space-y-6">
-//           <div className="bg-gradient-to-br from-blue-600 to-indigo-700 p-6 rounded-2xl shadow-xl text-white">
-//             <ShieldCheck className="w-10 h-10 mb-4 opacity-80" />
-//             <h3 className="text-xl font-bold mb-2">Account Verified</h3>
-//             <p className="text-blue-100 text-sm leading-relaxed mb-4">
-//               Your account is fully protected. All features are currently unlocked.
-//             </p>
-//             <button className="w-full bg-white/10 hover:bg-white/20 py-2 rounded-lg text-sm font-bold transition-colors">
-//               Security Settings
-//             </button>
-//           </div>
-
-//           <div className="bg-gray-900 border border-gray-800 p-6 rounded-2xl shadow-xl">
-//             <h4 className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-4">Quick Links</h4>
-//             <div className="grid grid-cols-1 gap-2">
-//               {['Profile Settings', 'Privacy Policy', 'Help Center', 'API Documentation'].map((link) => (
-//                 <button key={link} className="text-left text-gray-400 hover:text-white hover:bg-gray-800 p-2 rounded-lg transition-all text-sm">
-//                   {link}
-//                 </button>
-//               ))}
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default PatientDashboard;
-
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { 
@@ -116,10 +7,7 @@ import {
   User, Plus
 } from 'lucide-react';
 
-const PatientDashboard = () => {
-  const { user } = useSelector((state) => state.auth);
-  console.log(user)
-
+const DoctorDashboard = () => {
   // Mock data for the UI
   const stats = [
     { label: 'Medical Reports', value: '12', icon: FileText, color: 'text-blue-500', bg: 'bg-blue-500/10' },
@@ -138,7 +26,7 @@ const PatientDashboard = () => {
         </div>
         <div className="flex flex-col md:flex-row items-center gap-6 relative z-10">
           <div className="w-24 h-24 rounded-2xl bg-blue-600 flex items-center justify-center text-3xl font-bold text-white shadow-lg shadow-blue-600/20">
-            {user?.fullName?.charAt(0) || 'P'}
+            {user?.fullName?.charAt(0).toUpperCase() || 'P'}
           </div>
           <div className="flex-1 text-center md:text-left">
             <h1 className="text-3xl font-bold text-white tracking-tight">
@@ -316,4 +204,4 @@ const PatientDashboard = () => {
   );
 };
 
-export default PatientDashboard;
+export default DoctorDashboard;

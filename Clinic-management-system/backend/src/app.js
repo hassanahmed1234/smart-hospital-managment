@@ -8,6 +8,7 @@ import doctorRoutes from './routes/DoctorRoutes.js';
 import PatientsRoutes from './routes/PatientRoutes.js';
 import appointmentRoutes from './routes/AppointmentRoutes.js';
 import medicalRecordRoutes from './routes/MedicalRecordRoutes.js';
+import CurrUserRoute from './routes/CurrUserRoute.js';
 import prescriptionRoutes from './routes/PrescriptionRoutes.js';
 import adminRoutes from './routes/AdminRoutes.js';
 
@@ -27,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/currentuser', authRoutes);
+app.use('/api/currentuser',CurrUserRoute);
 app.use('/api/doctors', doctorRoutes);
 app.use('/api/patients', PatientsRoutes);
 app.use('/api/appointments', appointmentRoutes);

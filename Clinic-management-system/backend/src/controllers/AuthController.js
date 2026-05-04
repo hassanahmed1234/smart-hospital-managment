@@ -8,7 +8,6 @@ export const registerPatient = async (req, res) => {
   session.startTransaction();
 
   try {
-    console.log('Registration Request Body:', req.body);
 
     // Simplified validation (can be replaced with manual checks if needed)
     const validatedData = req.body;

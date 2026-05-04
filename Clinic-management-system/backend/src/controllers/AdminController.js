@@ -80,6 +80,17 @@ export const getAllUsers = async (req, res) => {
     res.status(500).json({ message: 'Server error', error: error.message });
   }
 };
+export const getAllDoctorsForAdmin = async (req, res) => {
+  try {
+    
+    const doctors = await DoctorProfile.find({});
+
+   
+    res.status(200).json(doctors);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error: error.message });
+  }
+};
 export const getAllPendingUsers = async (req, res) => {
   try {
     const users = await User.find({status : 'UNVERIFIED'})

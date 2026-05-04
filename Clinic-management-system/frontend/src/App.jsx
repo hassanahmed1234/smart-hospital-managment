@@ -10,7 +10,7 @@ import DoctorPipeline from './pages/DoctorPipeline';
 import AdminDashboard from './pages/AdminDashboard';
 import MedicalRecords from './pages/MedicalRecords';
 import AdminUsers from './pages/AdminUsers';
-import PatientDashboard from './components/PatientDashboard';
+import AllDashboard from './pages/AllDashboard';
 import { ShieldCheck, Calendar, FileText, UserPlus, Activity } from 'lucide-react';
 
 const Landing = () => {
@@ -138,6 +138,7 @@ const Landing = () => {
   );
 };
 
+
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.auth);
 
@@ -150,7 +151,7 @@ function App() {
           <Route path="/register" element={!isAuthenticated ? <Register /> : <Navigate to="/dashboard" />} />
           
           <Route element={isAuthenticated ? <Layout /> : <Navigate to="/login" />}>
-            <Route path="/dashboard" element={user?.role === 'ADMIN' ? <AdminDashboard /> : <PatientDashboard/>} />
+            <Route path="/dashboard" element={user?.role === 'ADMIN' ? <AdminDashboard /> : <AllDashboard/>  } />
             
             {/* Patient Routes */}
             {user?.role === 'PATIENT' && (

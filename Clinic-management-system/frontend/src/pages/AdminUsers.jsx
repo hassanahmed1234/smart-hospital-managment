@@ -49,7 +49,6 @@ const AdminUsers = () => {
         </div>
         <button
           onClick={() => {
-            console.log('btn clicked')
             setIsAddDoctorModalOpen(true)
             AddDoctorModal
           }}

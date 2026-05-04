@@ -14,7 +14,6 @@ const AdminQueue = () => {
     try {
       if (activeTab === 'appointments') {
         const response = await api.get('/appointments/admin-queue');
-        console.log(response.data)
         setAppointments(response.data);
       } else {
         const response = await api.get('/records/admin/pending');

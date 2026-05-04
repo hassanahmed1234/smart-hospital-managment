@@ -10,14 +10,14 @@ dotenv.config();
 const seedDatabase = async () => {
   try {
     await mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/clinicos');
-    console.log('Connected to MongoDB for seeding...');
+    
 
     // Clear existing data
     await User.deleteMany({});
     await PatientProfile.deleteMany({});
     await DoctorProfile.deleteMany({});
     await AdminProfile.deleteMany({});
-    console.log('Cleared existing users and profiles.');
+    
 
     // 1. Create Admin
     const adminUser = new User({
@@ -41,6 +41,7 @@ const seedDatabase = async () => {
       status: UserStatus.ACTIVE,
     });
     await doctorUser.save();
+
 
     await DoctorProfile.create({
       userId: doctorUser._id.toString(),
@@ -79,11 +80,11 @@ const seedDatabase = async () => {
       },
     });
 
-    console.log('Database seeded successfully!');
-    console.log('--- Test Accounts (Password: Password@123) ---');
-    console.log('Admin: admin@clinicos.com');
-    console.log('Doctor: doctor@clinicos.com');
-    console.log('Patient: patient@clinicos.com');
+    
+    
+    
+    
+    
     
     process.exit(0);
   } catch (error) {

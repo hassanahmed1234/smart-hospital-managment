@@ -19,7 +19,6 @@ const MedicalRecordModal = ({ patientId, patientName, isOpen, onClose, userRole 
     setLoading(true);
     try {
       const response = await api.get(`/records/${patientId}`);
-      console.log(response.data)
       setRecord(response.data);
     } catch (error) {
       console.error('Error fetching record:', error);

@@ -9,7 +9,7 @@ export const getMyMedicalRecord = async (req, res) => {
   
   try {
     const patient = await PatientProfile.findOne({ userId: req.user?.id });
-    console.log(patient)
+ 
     if (!patient) return res.status(404).json({ message: 'Patient profile not found' });
 
     const record = await Prescription.findOne({ patientId: patient._id })

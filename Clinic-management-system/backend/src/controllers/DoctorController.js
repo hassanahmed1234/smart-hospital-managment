@@ -5,7 +5,6 @@ export const getAllDoctors = async (req, res) => {
   
   try {
     const { specialty, gender, minFee, maxFee, search } = req.query;
-    console.log(req.query)
 
     const query = { isDeleted: false };
 

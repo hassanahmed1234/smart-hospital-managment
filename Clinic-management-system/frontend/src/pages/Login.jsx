@@ -17,7 +17,7 @@ const Login = () => {
     dispatch(loginStart());
     try {
       const response = await api.post('/auth/login', { email, password });
-      console.log(response)
+      
       dispatch(loginSuccess({ user: response.data.user, token: response.data.token }));
       navigate('/dashboard');
     } catch (err) {

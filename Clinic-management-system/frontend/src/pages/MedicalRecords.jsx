@@ -12,7 +12,6 @@ const MedicalRecords = () => {
     fetchRecord();
   }, []);
   useEffect(() => {
-    console.log(record)
   }, [record]);
 
   const fetchRecord = async () => {
@@ -73,7 +72,8 @@ const MedicalRecords = () => {
                       <p className="text-xs text-gray-400 font-medium">{new Date(note.updatedAt).toLocaleDateString()}</p>
                     </div>
                   </div>
-                  <p className="text-gray-300 leading-relaxed text-sm">INSTRUCTION : <blockquote> {note.generalNotes}</blockquote></p>
+                  <p className="text-gray-300 leading-relaxed text-sm">INSTRUCTION :</p>
+                  <blockquote> {note.generalNotes}</blockquote>
                   {note.medications.map((medicine) => {
                     return (<>
                   
