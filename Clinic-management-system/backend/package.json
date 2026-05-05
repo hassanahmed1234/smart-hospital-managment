@@ -4,7 +4,7 @@
   "description": "ClinicOS Backend - JavaScript",
   "main": "api/server.js",
   "scripts": {
-    "start": "node --watch server.js",
+    "start": "node --watch api/server.js",
     "dev": "node --watch api/server.js",
     "seed": "node api/seed.js",
     "test": "echo \"Error: no test specified\" && exit 1"
