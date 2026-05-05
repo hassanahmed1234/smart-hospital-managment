@@ -11,6 +11,7 @@ import medicalRecordRoutes from './routes/MedicalRecordRoutes.js';
 import CurrUserRoute from './routes/CurrUserRoute.js';
 import prescriptionRoutes from './routes/PrescriptionRoutes.js';
 import adminRoutes from './routes/AdminRoutes.js';
+import path from 'path';
 
 dotenv.config();
 
@@ -19,6 +20,8 @@ dns.setServers([
 ]);
 
 const app = express();
+
+const _dirname = path.resolve()
 
 // Middleware
 app.use(helmet());
@@ -40,5 +43,13 @@ app.use('/api/admin', adminRoutes);
 app.use('/health', (req, res) => {
   res.status(200).json({ status: 'OK', message: 'ClinicOS API is running' });
 });
+
+
+app.use(express.static(path.join(_dirname,'/frontend/dist')))
+
+app.get('...',(_,res)=>{
+  res.sendFile(path.resolve(_dirname,'frontend/dist/index.html'))
+})
+
 
 export default app;

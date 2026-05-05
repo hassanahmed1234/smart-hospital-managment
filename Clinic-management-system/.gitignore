@@ -1,3 +1,2 @@
-backend/.env
-GEMINI.md
-AGENTS.md
+.env
+backend/node_modules
