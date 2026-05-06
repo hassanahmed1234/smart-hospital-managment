@@ -21,7 +21,7 @@ dotenv.config();
 
 const app = express();
 
-const _dirname = path.resolve()
+// const _dirname = path.resolve()
 
 // Middleware
 app.use(helmet());
@@ -45,11 +45,11 @@ app.get('/', (req, res) => {
 });
 
 
-app.use(express.static(path.join(_dirname,'/frontend/dist')))
+// app.use(express.static(path.join(_dirname,'/frontend/dist')))
 
-app.get('...',(_,res)=>{
-  res.sendFile(path.resolve(_dirname,'frontend/dist/index.html'))
-})
+// app.get('...',(_,res)=>{
+//   res.sendFile(path.resolve(_dirname,'frontend/dist/index.html'))
+// })
 
 
 export default app;
