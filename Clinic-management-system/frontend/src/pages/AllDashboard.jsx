@@ -14,12 +14,27 @@ import { getInitialUser } from '../store/slices/authSlice';
 
 
 const AllDashboard = () => {
-const { user, token } = useSelector((state) => state.auth);
+  // const { user, token } = useSelector((state) => state.auth);
+  const [user, setUser] = useState(null)
+
+  useEffect(() => {
+
+    const token = localStorage.getItem('token')
+
+    const res = await api.get("/currentuser/me", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    setUser(res.data.user)
+
+  }, [])
+
 
   console.log(user)
   if (!user || !user.fullName) {
-  return <div>Please refresh to fetch data.....</div>;
-}
+    return <div>Please refresh to fetch data.....</div>;
+  }
   const [appointment, setAppointment] = useState([])
   const [todayappointment, setTodayAppointment] = useState([])
   const navigate = useNavigate();
@@ -47,7 +62,7 @@ const { user, token } = useSelector((state) => state.auth);
     { label: 'Experience', value: `${user?.experienceYears || 0} Yrs`, icon: Briefcase, color: 'text-purple-500', bg: 'bg-purple-500/10' },
     { label: 'Consultation Fee', value: user?.fee + '/-' + ' Pkr' || '0', icon: CreditCard, color: 'text-rose-500', bg: 'bg-rose-500/10' },
   ] : [
-  
+
     // { label: 'Active Prescriptions', value: '03', icon: Pill, color: 'text-emerald-500', bg: 'bg-emerald-500/10' },
     // { label: 'Pending Lab Tests', value: '01', icon: Beaker, color: 'text-purple-500', bg: 'bg-purple-500/10' },
     // { label: 'Health Score', value: 'Good', icon: Heart, color: 'text-rose-500', bg: 'bg-rose-500/10' },
