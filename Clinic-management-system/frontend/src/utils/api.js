@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://smart-hospital-managment.vercel.app/api',
+  baseURL: import.meta.env.VITE_API_URL || 'https://smart-hospital-managment.vercel.app/',
 });
 
 // Add a request interceptor to add the auth token to headers
