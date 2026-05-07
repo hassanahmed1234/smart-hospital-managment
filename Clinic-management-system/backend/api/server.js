@@ -17,9 +17,9 @@ await connectDB();
 
 
 // // Handle unhandled promise rejections
-process.on('unhandledRejection', (err) => {
-  console.log(`Error: ${err.message}`);
-});
+// process.on('unhandledRejection', (err) => {
+//   console.log(`Error: ${err.message}`);
+// });
 
 
 export default app
