@@ -42,7 +42,9 @@ app.use('/api/admin', adminRoutes);
 // Basic Route
 
 
-
+app.get('/', (req, res) => {
+  res.status(200).json({ status: 'OK', message: 'ClinicOS API is running' });
+});
 // app.use(express.static(path.join(_dirname,'/frontend/dist')))
 
 // app.get('...',(_,res)=>{

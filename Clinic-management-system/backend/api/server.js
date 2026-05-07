@@ -14,9 +14,7 @@ await connectDB();
 //   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 // });
 
-app.get('/', (req, res) => {
-  res.status(200).json({ status: 'OK', message: 'ClinicOS API is running' });
-});
+
 
 // // Handle unhandled promise rejections
 process.on('unhandledRejection', (err) => {
