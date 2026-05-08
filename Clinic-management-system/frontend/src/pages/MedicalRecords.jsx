@@ -18,7 +18,9 @@ const MedicalRecords = () => {
     setLoading(true);
     try {
       const response = await api.get(`/records/my-record`);
-      setRecord([...record, response.data]);
+      
+      setRecord(response.data);
+      console.log(record)
 
     } catch (error) {
       console.error('Error fetching record:', error);
