@@ -16,10 +16,13 @@ import { getInitialUser } from '../store/slices/authSlice';
 const AllDashboard = () => {
   // const { user, token } = useSelector((state) => state.auth);
   const [user, setUser] = useState(null)
+  const [appointment, setAppointment] = useState([])
+  const [todayappointment, setTodayAppointment] = useState([])
+  const navigate = useNavigate();
+
   const fetchUser = async () => {
     try {
       const token = localStorage.getItem('token')
-
       const res = await api.get("/currentuser/me", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -33,19 +36,13 @@ const AllDashboard = () => {
   }
 
   useEffect(() => {
-
     fetchUser()
-
   }, [])
 
-
-  console.log(user)
-  if (!user || !user.fullName) {
+  if (!user) {
     return <div>Please refresh to fetch data.....</div>;
   }
-  const [appointment, setAppointment] = useState([])
-  const [todayappointment, setTodayAppointment] = useState([])
-  const navigate = useNavigate();
+
 
 
   // Role Check
