@@ -16,17 +16,25 @@ import { getInitialUser } from '../store/slices/authSlice';
 const AllDashboard = () => {
   // const { user, token } = useSelector((state) => state.auth);
   const [user, setUser] = useState(null)
+  const fetchUser = async () => {
+    try {
+      const token = localStorage.getItem('token')
+
+      const res = await api.get("/currentuser/me", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUser(res.data.user)
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   useEffect(() => {
 
-    const token = localStorage.getItem('token')
-
-    const res = await api.get("/currentuser/me", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    setUser(res.data.user)
+    fetchUser()
 
   }, [])
 
