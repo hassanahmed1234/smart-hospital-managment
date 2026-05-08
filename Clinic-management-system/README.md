@@ -61,7 +61,6 @@ Before launching ClinicOS, ensure you have the following installed on your machi
 
 ## Testing the Workflows
 
-Once both servers are running, you can log in using the seeded test accounts. The password for all test accounts is `Password@123`.
 
 1. **Admin Account (`admin@clinicos.com`):** Log in here to view the Admin Overview dashboard and the Approval Queue. Nothing happens in the system without this role's approval.
 2. **Doctor Account (`doctor@clinicos.com`):** Log in to view the Appointment Pipeline, accept/reject admin-approved appointments, complete consultations, and issue prescriptions.
