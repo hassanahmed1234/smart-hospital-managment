@@ -12,7 +12,7 @@ export const getMyMedicalRecord = async (req, res) => {
  
     if (!patient) return res.status(404).json({ message: 'Patient profile not found' });
 
-    const record = await Prescription.findOne({ patientId: patient._id })
+    const record = await Prescription.find({ patientId: patient._id })
       .populate('doctorId', 'fullName specialty');
 
     if (!record) {
